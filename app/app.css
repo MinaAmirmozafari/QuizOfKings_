@@ -23,6 +23,21 @@
   content: "|";
   padding-right: 0.3em;
 }
+input{
+  border:none;
+  background-color: transparent;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+  outline: none;
+}
+
+.fa-user-circle-o{
+  color: gray;
+}
 
 @import "./lib/bootstrap/bootstrap-4.3.1-dist/css/bootstrap.css";
 @import "./lib/fontawesome/css/fontawesome.css";
