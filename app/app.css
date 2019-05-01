@@ -38,6 +38,24 @@ button:focus {
 .fa-user-circle-o{
   color: gray;
 }
+form.login{
+  margin: auto;
+  height: 50%;
+  width: 35%;
+  padding: 50px;
+
+}
+div.input-area{
+  margin: auto;
+  padding: 10px;
+}
+.app-footer{
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}
 
 @import "./lib/bootstrap/bootstrap-4.3.1-dist/css/bootstrap.css";
 @import "./lib/fontawesome/css/fontawesome.css";
