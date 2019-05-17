@@ -9,8 +9,18 @@ angular.module('myApp.login', ['ngRoute'])
   });
 }])
 
-.controller('loginCtrl' , [ '$scope', function($scope) {
+.controller('loginCtrl' , [ '$scope','$http', function($scope,$http) {
+    var  postData = {
+        "Mobile": "02839813",
+        "Password": "dsoaid",
+        "ServiceKey": "asjdoai"
+    };
     $scope.Login = function () {
-     alert($scope.ff);
-    }
+        $http.post( "http://khanabooks.com/KQ/api/Login" ,postData , {"content-type" : "application/json"})
+            .then(function(response) {
+               $scope.userName = response.data[0];
+            });
+    };
+    $scope.register = function () {
+    };
 }]);

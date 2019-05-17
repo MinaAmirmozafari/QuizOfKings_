@@ -47,7 +47,7 @@ form.login{
 }
 div.input-area{
   margin: auto;
-  padding: 10px;
+  padding-top: 10px;
 }
 .app-footer{
   position: fixed;
@@ -56,6 +56,10 @@ div.input-area{
   width: 100%;
   text-align: center;
 }
+.hint-box{
+  padding : 5px;
+  text-align: right;
+}
 
-@import "./lib/bootstrap/bootstrap-4.3.1-dist/css/bootstrap.css";
+@import "./lib/bootstrap/css/bootstrap.css";
 @import "./lib/fontawesome/css/fontawesome.css";
