@@ -10,17 +10,34 @@ angular.module('myApp.login', ['ngRoute'])
 }])
 
 .controller('loginCtrl' , [ '$scope','$http', function($scope,$http) {
-    var  postData = {
-        "Mobile": "02839813",
-        "Password": "dsoaid",
-        "ServiceKey": "asjdoai"
+    function init() {
+
     };
+    init();
+
     $scope.Login = function () {
-        $http.post( "http://khanabooks.com/KQ/api/Login" ,postData , {"content-type" : "application/json"})
+        var  postData = {
+            "Mobile": $scope.userName,
+            "Password": $scope.password,
+            "ServiceKey": "kq"
+        };
+        $http.post( "http://khanabooks.com/KQ/api/Login" ,postData )
             .then(function(response) {
-               $scope.userName = response.data[0];
+                if(response.data.ResponseCode== 0 && response.status==200){
+                    sessionStorage.setItem("user", JSON.stringify( response.data));
+                   /* var me = JSON.parse( window.sessionStorage.getItem("me"))*/
+                    alert('right');
+                }
             });
     };
-    $scope.register = function () {
+
+    $scope.changePassword = function () {
+        $http.post( "http://khanabooks.com/KQ/api/Login" ,postData )
+            .then(function(response) {
+                if(response.data.ResponseCode== 0 && response.status==200){
+                    alert('right');
+                }
+            });
     };
+
 }]);

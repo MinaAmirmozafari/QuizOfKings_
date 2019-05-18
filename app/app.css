@@ -45,6 +45,20 @@ form.login{
   padding: 50px;
 
 }
+form.register{
+  margin: auto;
+  height: 50%;
+  width: 35%;
+  padding: 50px;
+
+}
+form.changepassword{
+  margin: auto;
+  height: 50%;
+  width: 35%;
+  padding: 50px;
+
+}
 div.input-area{
   margin: auto;
   padding-top: 10px;
@@ -60,6 +74,10 @@ div.input-area{
   padding : 5px;
   text-align: right;
 }
+li{
+  padding: 10px;
+}
 
-@import "./lib/bootstrap/css/bootstrap.css";
+
+@import "./lib/bootstrap/bootstrap-4.3.1-dist/css/bootstrap.css";
 @import "./lib/fontawesome/css/fontawesome.css";
