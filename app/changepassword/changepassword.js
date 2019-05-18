@@ -23,8 +23,8 @@ angular.module('myApp.changepassword', ['ngRoute'])
         $http.post( "http://khanabooks.com/KQ/api/ResetUserPassword" ,changepasswordData )
             .then(function(response) {
                 if(response.status==200 && response.data.ResponseCode==0){
-                    alert (JSON.parse( sessionStorage.getItem("user")))
-
+                  /* var mina =  JSON.parse( sessionStorage.getItem("user"));
+                   alert(mina.ID);*/
                 }
             });
     };

@@ -9,10 +9,9 @@ angular.module('myApp.login', ['ngRoute'])
   });
 }])
 
-.controller('loginCtrl' , [ '$scope','$http', function($scope,$http) {
+.controller('loginCtrl' , [ '$scope','$http' ,'$location', function($scope,$http ,$location) {
     function init() {
-
-    };
+    }
     init();
 
     $scope.Login = function () {
@@ -21,30 +20,19 @@ angular.module('myApp.login', ['ngRoute'])
             "Password": $scope.password,
             "ServiceKey": "kq"
         };
+
         $http.post( "http://khanabooks.com/KQ/api/Login" ,postData )
             .then(function(response) {
                 if(response.data.ResponseCode== 0 && response.status==200){
                     sessionStorage.setItem("user", JSON.stringify( response.data));
-                    localStorage.setItem('initData', JSON.stringify(response.data));
+                    $location.path("/selectCategory" );
 
-// Retrieve the object from localStorage
-                    var retrievedObject = localStorage.getItem('initData');
-
-// console.log retrieved item
-                    console.log('retrieved data Object: ', JSON.parse(retrievedObject));
-                   /* var me = JSON.parse( window.sessionStorage.getItem("me"))*/
-                    alert('right');
                 }
             });
     };
-
     $scope.changePassword = function () {
-        $http.post( "http://khanabooks.com/KQ/api/Login" ,postData )
-            .then(function(response) {
-                if(response.data.ResponseCode== 0 && response.status==200){
-                    alert('right');
-                }
-            });
+        $location.path("/changepassword" );
+
     };
 
 }]);

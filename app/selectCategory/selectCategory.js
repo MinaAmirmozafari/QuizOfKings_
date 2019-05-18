@@ -11,69 +11,33 @@ angular.module('myApp.selectCategory', ['ngRoute'])
 
 .controller('selectCategoryCtrl' , [ '$scope','$http', function($scope,$http) {
     function init() {
-        $scope.items = [
-            {
-                "ID": "1",
-                "Description": "ورزش",
-                "CountOfClosedGame": "0",
-                "CountOfOpenGame": "0"
-            },
-            {
-                "ID": "2",
-                "Description": "موسيقي",
-                "CountOfClosedGame": "1",
-                "CountOfOpenGame": "0"
-            },
-            {
-                "ID": "3",
-                "Description": "سينما",
-                "CountOfClosedGame": "0",
-                "CountOfOpenGame": "0"
-            },
-            {
-                "ID": "4",
-                "Description": "كامپيوتر",
-                "CountOfClosedGame": "0",
-                "CountOfOpenGame": "0"
-            },
-            {
-                "ID": "5",
-                "Description": "مذهبی",
-                "CountOfClosedGame": "0",
-                "CountOfOpenGame": "0"
-            },
-            {
-                "ID": "6",
-                "Description": "اطلاعات عمومی",
-                "CountOfClosedGame": "0",
-                "CountOfOpenGame": "0"
-            },
-            {
-                "ID": "7",
-                "Description": "ادبیات",
-                "CountOfClosedGame": "0",
-                "CountOfOpenGame": "0"
-            },
-            {
-                "ID": "8",
-                "Description": "تاریخ",
-                "CountOfClosedGame": "0",
-                "CountOfOpenGame": "0"
-            },
-            {
-                "ID": "9",
-                "Description": "اماکن",
-                "CountOfClosedGame": "0",
-                "CountOfOpenGame": "0"
-            },
-            {
-                "ID": "10",
-                "Description": "علمی",
-                "CountOfClosedGame": "0",
-                "CountOfOpenGame": "0"
-            }
-        ];
+        $scope.items1 =[];
+        $scope.items2 =[];
+        getItems();
+
+
     };
     init();
-
+     function getItems () {
+       var obj =  JSON.parse(sessionStorage["user"]);
+        var Id  =  obj.ID;
+         var data ={
+             "UserID": Id,
+             "ServiceKey": "kq"
+         };
+         $http.post( "http://khanabooks.com/KQ/api/QuestionGroup" ,data )
+             .then(function(response) {
+                 var i;
+                 if(response.status==200 ){
+                     for (i = 0; i < response.data.length; i++) {
+                         if((i%2) == 0){
+                             $scope.items1.push(response.data[i]);
+                         }
+                         else{
+                             $scope.items2.push(response.data[i]);
+                         }
+                     }
+                 }
+             });
+    }
 }]);
