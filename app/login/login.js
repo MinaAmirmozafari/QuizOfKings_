@@ -25,6 +25,13 @@ angular.module('myApp.login', ['ngRoute'])
             .then(function(response) {
                 if(response.data.ResponseCode== 0 && response.status==200){
                     sessionStorage.setItem("user", JSON.stringify( response.data));
+                    localStorage.setItem('initData', JSON.stringify(response.data));
+
+// Retrieve the object from localStorage
+                    var retrievedObject = localStorage.getItem('initData');
+
+// console.log retrieved item
+                    console.log('retrieved data Object: ', JSON.parse(retrievedObject));
                    /* var me = JSON.parse( window.sessionStorage.getItem("me"))*/
                     alert('right');
                 }
