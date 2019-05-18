@@ -9,7 +9,7 @@ angular.module('myApp.register', ['ngRoute'])
   });
 }])
 
-.controller('registerCtrl' , [ '$scope','$http', function($scope,$http) {
+.controller('registerCtrl' , [ '$scope','$http','$location', function($scope,$http,$location) {
     function init() {
         $scope.securityquestionitems = [];
         getQuestionList();
@@ -27,6 +27,9 @@ angular.module('myApp.register', ['ngRoute'])
                 }
             });
     };
+     $scope.signin = function(){
+         $location.path("/login" );
+     }
     $scope.register = function () {
         var registerData={
             "Name": $scope.Name.toString(),
