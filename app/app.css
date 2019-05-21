@@ -38,26 +38,11 @@ button:focus {
 .fa-user-circle-o{
   color: gray;
 }
-form.login{
-  margin: auto;
+form.middle{
+  margin: 10px auto;
   height: 50%;
   width: 35%;
-  padding: 50px;
-
-}
-form.register{
-  margin: auto;
-  height: 50%;
-  width: 35%;
-  padding: 50px;
-
-}
-form.changepassword{
-  margin: auto;
-  height: 50%;
-  width: 35%;
-  padding: 50px;
-
+  padding: 40px;
 }
 div.input-area{
   margin: auto;
