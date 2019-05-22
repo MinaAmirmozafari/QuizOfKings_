@@ -9,7 +9,7 @@ angular.module('myApp.selectCategory', ['ngRoute'])
   });
 }])
 
-.controller('selectCategoryCtrl' , [ '$scope','$http', function($scope,$http) {
+.controller('selectCategoryCtrl' , [ '$scope','$http' ,'$uibModal', function($scope,$http,$uibModal) {
     function init() {
         $scope.items1 =[];
         $scope.items2 =[];
@@ -39,5 +39,12 @@ angular.module('myApp.selectCategory', ['ngRoute'])
                      }
                  }
              });
+    }
+    $scope.openModal= function (item)  {
+        $uibModal.open({
+            templateUrl: 'selectCategory/selectGame.html',
+            scope: $scope
+
+        });
     }
 }]);

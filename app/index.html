@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <!--[if lt IE 7]><html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]><html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]><html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
@@ -14,11 +15,14 @@
   <link rel="stylesheet" href="app.css">
   <script src="lib/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
   <link rel="stylesheet" href="lib/fontawesome/css/all.css">
-  <link rel="stylesheet" href="lib/bootstrap/bootstrap-4.3.1-dist/css/bootstrap.css">
+  <link rel="stylesheet" href="lib/bootstrap/bootstrap-3.3.7-dist/css/bootstrap.css">
+
 </head>
 <body>
-<div class="card-header">
+<div class="card-header ">
+<!--
 <span app-user class="fa-pull-right"></span>
+-->
   <ul class="menu">
     <li><a href="#!/register">register</a></li>
     <li><a href="#!/login">login</a></li>
@@ -39,6 +43,7 @@
   <!-- In production use:
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
   -->
+  <script>window.__theme = 'bs4';</script>
   <script src="lib/angular/angular.js"></script>
   <script src="lib/angular-route/angular-route.js"></script>
   <script src="app.js"></script>
@@ -51,5 +56,7 @@
   <script src="core/version/interpolate-filter.js"></script>
   <script src="core/user/user-directive.js"></script>
   <script src="core/user/user.js"></script>
+  <script src="lib/angular-ui-bootstrap/dist/ui-bootstrap.js"></script>
+  <script src="lib/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
 </body>
 </html>
