@@ -10,7 +10,8 @@ angular.module('myApp', [
   'myApp.selectJoinType',
   'myApp.version',
   'myApp.user',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  'myApp.question'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
   $locationProvider.hashPrefix('!');

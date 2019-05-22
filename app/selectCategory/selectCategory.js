@@ -9,7 +9,7 @@ angular.module('myApp.selectCategory', ['ngRoute'])
   });
 }])
 
-.controller('selectCategoryCtrl' , [ '$scope','$http' ,'$uibModal' , function($scope,$http,$uibModal ) {
+.controller('selectCategoryCtrl' , [ '$scope','$http' ,'$uibModal' ,'$location', function($scope,$http,$uibModal,$location ) {
     function init() {
         $scope.items1 =[];
         $scope.items2 =[];
@@ -38,28 +38,58 @@ angular.module('myApp.selectCategory', ['ngRoute'])
                  }
              });
     }
+    $scope.joinGame = function(game){
+         var joinGameData ={
+             "GameID": game.ID,
+             "UserID":  JSON.parse(sessionStorage["user"]).ID,
+             "ServiceKey": "kq"
+         };
+        $http.post( "http://khanabooks.com/KQ/api/JoinGame" ,joinGameData )
+            .then(function(response) {
+                if(response.data.ResponseCode==0 && response.status==200){
+                    $scope.item.CountOfOpenGame = (parseInt($scope.item.CountOfOpenGame.toString())-1).toString();
+                    $location.path("/question" );
+                }
+            });
+        $scope.modalInstance.close();
+    };
     $scope.createGame = function () {
         var obj =  JSON.parse(sessionStorage["user"]);
         var Id  =  obj.ID;
         var createGameData ={
             "UserID": Id,
-            "QuestionGroupID" : $scope.categoryId,
+            "QuestionGroupID" : $scope.item.ID,
             "PlayerCount": "2",
             "ServiceKey": "kq"
         };
         $http.post( "http://khanabooks.com/KQ/api/CreateGame" ,createGameData )
             .then(function(response) {
-                if(response.status==200 && response.status==200){
-                    window.location.reload();
+                if(response.data.ResponseCode==0 && response.status==200){
+                    $scope.item.CountOfOpenGame = (parseInt($scope.item.CountOfOpenGame.toString())+1).toString();
                     $scope.modalInstance.close();
                 }
             });
     };
-     $scope.cancel = function(){
+    $scope.cancel = function(){
          $scope.modalInstance.dismiss();
      };
     $scope.openModal= function (item)  {
-        $scope.categoryId = item.ID ;
+        var i;
+        $http.post( "http://khanabooks.com/KQ/api/OnLineGameList" ,{
+            "UserID": JSON.parse(sessionStorage["user"]).ID,
+            "QuestionGroupID": item.ID,
+            "ServiceKey": "kq"} )
+            .then(function(response) {
+                if( response.status==200){
+                    $scope.onlineGames=response.data;
+
+                  /*  for (i=0;i<response.data.length;i++) {
+                        if (parseInt(response.data[i].JoinedPlayerCount) != 2)
+                            $scope.onlineGames.push(response.data[i]);
+                    }*/
+                }
+            });
+        $scope.item = item;
         $scope.modalInstance = $uibModal.open({
             templateUrl: 'selectCategory/selectGame.html',
             controller : 'selectCategoryCtrl' ,
@@ -67,6 +97,7 @@ angular.module('myApp.selectCategory', ['ngRoute'])
 
         });
         modalInstance.result.then(function () {
+
         }, function () {
         });
     }

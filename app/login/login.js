@@ -25,7 +25,7 @@ angular.module('myApp.login', ['ngRoute'])
             .then(function(response) {
                 if(response.data.ResponseCode== 0 && response.status==200){
                     sessionStorage.setItem("user", JSON.stringify( response.data));
-                    $location.path("/selectJoinType" );
+                    $location.path("/selectCategory" );
 
                 }
             });

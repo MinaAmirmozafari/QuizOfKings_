@@ -2,8 +2,8 @@
     <h4 class="modal-title text-center" id="modal-title">ایجاد بازی جدید یا پیوستن به بازی موجود؟</h4>
 </div>
 <div class="modal-body" id="modal-body">
-<ul>
-    <li>
+<ul class="list-unstyled">
+    <li ng-repeat="game in onlineGames"><a ng-click="joinGame(game)">بازی شماره  {{game.ID}}</a>
 
     </li>
 </ul>
