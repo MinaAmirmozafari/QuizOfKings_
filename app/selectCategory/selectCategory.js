@@ -9,13 +9,11 @@ angular.module('myApp.selectCategory', ['ngRoute'])
   });
 }])
 
-.controller('selectCategoryCtrl' , [ '$scope','$http' ,'$uibModal', function($scope,$http,$uibModal) {
+.controller('selectCategoryCtrl' , [ '$scope','$http' ,'$uibModal' , function($scope,$http,$uibModal ) {
     function init() {
         $scope.items1 =[];
         $scope.items2 =[];
         getItems();
-
-
     };
     init();
      function getItems () {
@@ -40,11 +38,32 @@ angular.module('myApp.selectCategory', ['ngRoute'])
                  }
              });
     }
+    $scope.createGame = function () {
+        var obj =  JSON.parse(sessionStorage["user"]);
+        var Id  =  obj.ID;
+        var createGameData ={
+            "UserID": Id,
+            "QuestionGroupID" : $scope.categoryId,
+            "PlayerCount": "2",
+            "ServiceKey": "kq"
+        };
+        $http.post( "http://khanabooks.com/KQ/api/CreateGame" ,createGameData )
+            .then(function(response) {
+                if(response.status==200 && response.status==200){
+
+                }
+            });
+    }
     $scope.openModal= function (item)  {
-        $uibModal.open({
+        $scope.categoryId = item.ID ;
+        var  modalInstance = $uibModal.open({
             templateUrl: 'selectCategory/selectGame.html',
+            controller : 'selectCategoryCtrl' ,
             scope: $scope
 
+        });
+        modalInstance.result.then(function () {
+        }, function () {
         });
     }
 }]);
