@@ -14,7 +14,7 @@
                 <div class="col-md-6">
                     <ul class="list-unstyled">
                         <li ng-repeat="item in items2" >
-                            <button type="button" class="btn btn-success btn-block">
+                            <button type="button" class="btn btn-success btn-block" ng-click="openModal(item)">
                                 {{item.Description }}<br><span class="badge badge-light badge-pill">تعداد بازی های باز : {{item.CountOfOpenGame}} </span>
                             </button>
                         </li>

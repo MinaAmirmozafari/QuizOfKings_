@@ -62,5 +62,5 @@ div.input-area{
 li{
   padding: 10px;
 }
-@import "./lib/bootstrap/bootstrap-4.3.1-dist/css/bootstrap.css";
+@import "./lib/bootstrap/bootstrap-3.3.7-dist/css/bootstrap.css";
 @import "./lib/fontawesome/css/fontawesome.css";

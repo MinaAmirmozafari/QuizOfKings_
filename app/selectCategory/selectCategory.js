@@ -50,13 +50,17 @@ angular.module('myApp.selectCategory', ['ngRoute'])
         $http.post( "http://khanabooks.com/KQ/api/CreateGame" ,createGameData )
             .then(function(response) {
                 if(response.status==200 && response.status==200){
-
+                    window.location.reload();
+                    $scope.modalInstance.close();
                 }
             });
-    }
+    };
+     $scope.cancel = function(){
+         $scope.modalInstance.dismiss();
+     };
     $scope.openModal= function (item)  {
         $scope.categoryId = item.ID ;
-        var  modalInstance = $uibModal.open({
+        $scope.modalInstance = $uibModal.open({
             templateUrl: 'selectCategory/selectGame.html',
             controller : 'selectCategoryCtrl' ,
             scope: $scope
