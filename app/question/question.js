@@ -9,14 +9,28 @@ angular.module('myApp.question', ['ngRoute'])
   });
 }])
 
-.controller('questionCtrl' , [ '$scope','$location', function($scope ,$location ) {
+.controller('questionCtrl' , [ '$scope','$http', function($scope ,$http ) {
     function init() {
-    };
-    init();
-    $scope.joinToGame= function ()  {
-        $location.path('/selectCategory');
-    };
-    $scope.createGame= function ()  {
-
+        $scope.questionList = [];
+        getAnswersList();
     }
+    init();
+    function getAnswersList (){
+        let  postData = {
+            "GameID": JSON.parse(sessionStorage["gameId"]),
+            "UserID": JSON.parse(sessionStorage["user"]).ID,
+            "ServiceKey": "kq"
+        };
+
+        $http.post( "http://khanabooks.com/KQ/api/NextQuestion" ,postData )
+            .then(function(response) {
+                if(response.status==200){
+                    $scope.question = response.data.Question;
+                    $scope.answersList = response.data.Answer;
+                }
+            });
+    }
+    $scope.sendAnswer= function ()  {
+    };
+
 }]);

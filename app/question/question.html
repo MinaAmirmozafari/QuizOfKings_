@@ -1,15 +1,17 @@
 <div class="container-fluid">
-    <div class="row">
+    <div class="row center-block">
         <div class="col-md-8">
+            {{question.Description}}
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-8 center-block">
             <div class="row">
                 <div class="col-md-8">
                     <ul class="list-unstyled">
-                        <li>
-                            <button type="button" class="btn btn-success btn-block" ng-click="createGame()">ایجاد بازی جدید
-                            </button>
-                        </li>
-                        <li>
-                            <button type="button" class="btn btn-success btn-block" ng-click="joinToGame()">پیوستن به بازی های موجود
+                        <li ng-repeat="answer in answersList">
+                            <button type="button" class="btn btn-success btn-block" ng-click="sendAnswer(answer)">{{answer.Description}}
                             </button>
                         </li>
                     </ul>
