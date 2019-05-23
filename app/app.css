@@ -39,10 +39,11 @@ button:focus {
   color: gray;
 }
 form.middle{
-  margin: 10px auto;
+  margin: 10px 33% auto;
   height: 50%;
-  width: 35%;
+  width: 34%;
   padding: 40px;
+  border: 1px solid black;
 }
 div.input-area{
   margin: auto;

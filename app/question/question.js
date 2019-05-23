@@ -30,7 +30,29 @@ angular.module('myApp.question', ['ngRoute'])
                 }
             });
     }
-    $scope.sendAnswer= function ()  {
+    $scope.sendAnswer= function (answer)  {
+        let answerData ={
+            "GameID": JSON.parse(sessionStorage["gameId"]),
+            "UserID": JSON.parse(sessionStorage["user"]).ID,
+            "ServiceKey": "kq",
+            "AnswerID": answer.ID,
+            "QuestionID": $scope.question.ID
+        };
+        $http.post( "http://khanabooks.com/KQ/api/SaveGameUserAnswer" ,answerData )
+            .then(function(response) {
+                if(response.status==200 && response.data.ResponseCode==0){
+                    getAnswersList();
+                }
+                else if(response.status==200 && response.data.ResponseCode==1){
+                    $http.post( "http://khanabooks.com/KQ/api/GameResult" ,answerData )
+                        .then(function(response) {
+                            if(response.status==200 && response.data.ResponseCode==0){
+
+                            }
+
+                        });
+                }
+            });
     };
 
 }]);
