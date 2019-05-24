@@ -24,7 +24,7 @@ angular.module('myApp.login', ['ngRoute'])
         $http.post( "http://khanabooks.com/KQ/api/Login" ,postData )
             .then(function(response) {
                 if(response.data.ResponseCode== 0 && response.status==200){
-                    toaster.pop('success', "ورود موفق", response.data.Message.toString());
+                    toaster.pop('note', "ورود موفق", response.data.Message.toString());
                     sessionStorage.setItem("user", JSON.stringify( response.data));
                     $location.path("/selectCategory" );
                 }

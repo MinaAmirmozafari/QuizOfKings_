@@ -42,6 +42,11 @@ angular.module('myApp.question', ['ngRoute'])
             "AnswerID": answer.ID,
             "QuestionID": $scope.question.ID
         };
+        let  postData = {
+            "GameID": JSON.parse(sessionStorage["gameId"]),
+            "UserID": JSON.parse(sessionStorage["user"]).ID,
+            "ServiceKey": "kq"
+        };
         $http.post( "http://khanabooks.com/KQ/api/SaveGameUserAnswer" ,answerData )
             .then(function(response) {
                 if(response.status==200 && response.data.ResponseCode==0){
@@ -50,19 +55,25 @@ angular.module('myApp.question', ['ngRoute'])
                         getAnswersList();
                     }
                     else{
-                        $location.path('/winner')
+                        $http.post( "http://khanabooks.com/KQ/api/FinishGame" ,postData )
+                            .then(function(response) {
+                                if(response.status==200 && response.data.ResponseCode==1){
+                                    toaster.pop('error', "خطا", response.data.Message.toString());
+                                }
+                            });
+                        $location.path('/winner');
                     }
 
                 }
                 else if(response.status==200 && response.data.ResponseCode==1){
-                    $http.post( "http://khanabooks.com/KQ/api/GameResult" ,answerData )
+                    toaster.pop('error', "خطا", response.data.Message.toString());
+                    $http.post( "http://khanabooks.com/KQ/api/FinishGame" ,postData )
                         .then(function(response) {
                             if(response.status==200 && response.data.ResponseCode==1){
                                 toaster.pop('error', "خطا", response.data.Message.toString());
                             }
-
-
                         });
+                    $location.path('/winner');
                 }
             });
     };
