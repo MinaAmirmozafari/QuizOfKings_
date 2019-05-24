@@ -9,8 +9,9 @@ angular.module('myApp.question', ['ngRoute'])
   });
 }])
 
-.controller('questionCtrl' , [ '$scope','$http' , 'toaster', function($scope ,$http, toaster ) {
+.controller('questionCtrl' , [ '$scope','$http' , 'toaster' , '$location', function($scope ,$http, toaster,$location ) {
     function init() {
+        $scope.counter=0;
         $scope.questionList = [];
         getAnswersList();
     }
@@ -44,13 +45,20 @@ angular.module('myApp.question', ['ngRoute'])
         $http.post( "http://khanabooks.com/KQ/api/SaveGameUserAnswer" ,answerData )
             .then(function(response) {
                 if(response.status==200 && response.data.ResponseCode==0){
-                    getAnswersList();
+                    $scope.counter++;
+                    if($scope.counter<3){
+                        getAnswersList();
+                    }
+                    else{
+                        $location.path('/winner')
+                    }
+
                 }
                 else if(response.status==200 && response.data.ResponseCode==1){
                     $http.post( "http://khanabooks.com/KQ/api/GameResult" ,answerData )
                         .then(function(response) {
-                            if(response.status==200 && response.data.ResponseCode==0){
-
+                            if(response.status==200 && response.data.ResponseCode==1){
+                                toaster.pop('error', "خطا", response.data.Message.toString());
                             }
 
 

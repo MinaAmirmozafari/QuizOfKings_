@@ -18,7 +18,7 @@ angular.module('myApp.winner', ['ngRoute'])
             "GameID": JSON.parse(sessionStorage["gameId"]),
             "ServiceKey": "kq"
         };
-        $http.post( "http://khanabooks.com/KQ/api/GameStatus" ,gameStatusData )
+        $http.post( "http://khanabooks.com/KQ/api/GameResult" ,gameStatusData )
             .then(function(response) {
                 if(response.data.ResponseCode==0 && response.status==200 ){
                     {
