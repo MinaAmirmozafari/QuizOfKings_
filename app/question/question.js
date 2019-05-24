@@ -9,7 +9,7 @@ angular.module('myApp.question', ['ngRoute'])
   });
 }])
 
-.controller('questionCtrl' , [ '$scope','$http', function($scope ,$http ) {
+.controller('questionCtrl' , [ '$scope','$http' , 'toaster', function($scope ,$http, toaster ) {
     function init() {
         $scope.questionList = [];
         getAnswersList();
@@ -24,9 +24,12 @@ angular.module('myApp.question', ['ngRoute'])
 
         $http.post( "http://khanabooks.com/KQ/api/NextQuestion" ,postData )
             .then(function(response) {
-                if(response.status==200){
+                if(response.status==200 ){
                     $scope.question = response.data.Question;
                     $scope.answersList = response.data.Answer;
+                }
+                else if(response.status==200 && response.data.ResponseCode==1){
+                    toaster.pop('error', "خطا", response.data.Message.toString());
                 }
             });
     }
@@ -49,6 +52,7 @@ angular.module('myApp.question', ['ngRoute'])
                             if(response.status==200 && response.data.ResponseCode==0){
 
                             }
+
 
                         });
                 }

@@ -7,11 +7,13 @@ angular.module('myApp', [
   'myApp.register',
   'myApp.selectCategory',
   'myApp.changepassword',
-  'myApp.selectJoinType',
+  'myApp.winner',
   'myApp.version',
   'myApp.user',
   'ui.bootstrap',
-  'myApp.question'
+  'myApp.question',
+  'toaster',
+    'ngAnimate'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
   $locationProvider.hashPrefix('!');

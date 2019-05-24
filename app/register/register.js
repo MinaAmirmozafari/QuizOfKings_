@@ -9,7 +9,7 @@ angular.module('myApp.register', ['ngRoute'])
   });
 }])
 
-.controller('registerCtrl' , [ '$scope','$http','$location', function($scope,$http,$location) {
+.controller('registerCtrl' , [ '$scope','$http','$location','toaster', function($scope,$http,$location,toaster) {
     function init() {
         $scope.securityquestionitems = [];
         getQuestionList();
@@ -42,7 +42,11 @@ angular.module('myApp.register', ['ngRoute'])
         $http.post( "http://khanabooks.com/KQ/api/Register" ,registerData )
             .then(function(response) {
                 if(response.status==200 && response.data.ResponseCode==0){
-
+                    toaster.pop('success', "ثبت نام موفق", response.data.Message.toString());
+                    $location.path('/login');
+                }
+                else if(response.status==200 && response.data.ResponseCode==1){
+                    toaster.pop('error', "خطا", response.data.Message.toString());
                 }
             });
     };

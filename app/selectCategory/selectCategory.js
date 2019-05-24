@@ -9,7 +9,8 @@ angular.module('myApp.selectCategory', ['ngRoute'])
   });
 }])
 
-.controller('selectCategoryCtrl' , [ '$scope','$http' ,'$uibModal' ,'$location','$interval', function($scope,$http,$uibModal,$location,$interval ) {
+.controller('selectCategoryCtrl' , [ '$scope','$http' ,'$uibModal' ,'$location','$interval' ,'toaster'
+    , function($scope,$http,$uibModal,$location,$interval,toaster ) {
     init();
     $scope.joinGame = function(game){
         $scope.joinGameData ={
@@ -22,6 +23,7 @@ angular.module('myApp.selectCategory', ['ngRoute'])
                 if(response.data.ResponseCode==0 && response.status==200){
                     $scope.item.CountOfOpenGame = (parseInt($scope.item.CountOfOpenGame.toString())-1).toString();
                     $scope.gameId = game.ID;
+                    toaster.pop('note', "اطلاع", response.data.Message.toString());
                     sessionStorage.setItem('gameId', JSON.stringify( game.ID));
                     $http.post( "http://khanabooks.com/KQ/api/UserReadiness" ,$scope.joinGameData )
                         .then(function(response) {
@@ -34,17 +36,27 @@ angular.module('myApp.selectCategory', ['ngRoute'])
                                     $location.path("/question");
                                 }*/
                             }
+                            else if(response.data.ResponseCode==1 && response.status==200){
+                                toaster.pop('error', "خطا", response.data.Message.toString());
+                            }
                         });
+                }
+                else if(response.data.ResponseCode==1 && response.status==200){
+                    toaster.pop('error', "خطا", response.data.Message.toString());
                 }
             });
         $scope.modalInstance.close();
     };
+
     function init() {
         $scope.items1 =[];
         $scope.items2 =[];
         getItems();
+        $interval(updateOpenGames,2000);
     }
     function getItems () {
+        $scope.items1 = [];
+       $scope.items2 = [];
        let obj =  JSON.parse(sessionStorage["user"]);
         let Id  =  obj.ID;
          let data ={
@@ -64,6 +76,9 @@ angular.module('myApp.selectCategory', ['ngRoute'])
                          }
                      }
                  }
+                 else if(response.status==200 &&response.data.ResponseCode==1){
+                     toaster.pop('error', "خطا", response.data.Message.toString());
+                 }
              });
     }
     function check2players(){
@@ -82,7 +97,9 @@ angular.module('myApp.selectCategory', ['ngRoute'])
                             .then(function(response) {
                                 if(response.data.ResponseCode==0 && response.status==200){
                                     startGame(gameStatusData);
-
+                                }
+                                else if(response.data.ResponseCode==1 && response.status==200){
+                                    toaster.pop('warning', "هشدار", response.data.Message.toString());
                                 }
                             });
                     }
@@ -90,13 +107,16 @@ angular.module('myApp.selectCategory', ['ngRoute'])
             });
     }
     function startGame(data) {
-
         $http.post( "http://khanabooks.com/KQ/api/StartGame" ,data )
             .then(function(response) {
                 if(response.data.ResponseCode==0 && response.status==200){
                     $interval.cancel($scope.timer2);
                     $location.path("/question");
                 }
+                else if(response.data.ResponseCode==1 && response.status==200){
+                    toaster.pop('warning', "هشدار", response.data.Message.toString());
+                }
+
             });
     }
     function gameStatus() {
@@ -116,8 +136,34 @@ angular.module('myApp.selectCategory', ['ngRoute'])
                 }
             });
     }
-    $scope.createGame = function () {
+    function updateOpenGames() {
+        let obj =  JSON.parse(sessionStorage["user"]);
+        let Id  =  obj.ID;
+        let data ={
+            "UserID": Id,
+            "ServiceKey": "kq"
+        };
+        $http.post( "http://khanabooks.com/KQ/api/QuestionGroup" ,data )
+            .then(function(response) {
+                let i,j,k;
+                if(response.status==200 ){
+                    for (i = 0; i < response.data.length; i++) {
+                        for(j = 0; j < $scope.items1.length; j++){
+                            if(response.data[i].ID == $scope.items1[j].ID){
+                                $scope.items1[j].CountOfOpenGame = response.data[i].CountOfOpenGame;
+                            }
+                        }
 
+                        for(k = 0; k < $scope.items2.length; k++){
+                            if(response.data[i].ID == $scope.items2[k].ID){
+                                $scope.items2[k].CountOfOpenGame = response.data[i].CountOfOpenGame;
+                            }
+                        }
+                    }
+                }
+            });
+    }
+    $scope.createGame = function () {
         let obj =  JSON.parse(sessionStorage["user"]);
         let Id  =  obj.ID;
         let createGameData ={
@@ -135,13 +181,15 @@ angular.module('myApp.selectCategory', ['ngRoute'])
                     $scope.modalInstance.close();
                     $scope.timer2 = $interval(check2players, 2000);
                 }
+                else if(response.data.ResponseCode==1 && response.status==200){
+                    toaster.pop('warning', "هشدار", response.data.Message.toString());
+                }
             });
     };
     $scope.cancel = function(){
          $scope.modalInstance.dismiss();
      };
     $scope.openModal= function (item)  {
-
         let i;
         $http.post( "http://khanabooks.com/KQ/api/OnLineGameList" ,{
             "UserID": JSON.parse(sessionStorage["user"]).ID,

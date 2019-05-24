@@ -9,7 +9,7 @@ angular.module('myApp.changepassword', ['ngRoute'])
   });
 }])
 
-.controller('changepasswordCtrl' , [ '$scope','$http','$location', function($scope,$http, $location) {
+.controller('changepasswordCtrl' , [ '$scope','$http','$location' , 'toaster', function($scope,$http, $location,toaster) {
     function init() {
     };
     init();
@@ -23,6 +23,7 @@ angular.module('myApp.changepassword', ['ngRoute'])
         $http.post( "http://khanabooks.com/KQ/api/ResetUserPassword" ,changepasswordData )
             .then(function(response) {
                 if(response.status==200 && response.data.ResponseCode==0){
+                    toaster.pop('success', "تغییر رمز", response.data.Message.toString());
                     $location.path("/login" );
 
                 }

@@ -9,7 +9,7 @@ angular.module('myApp.login', ['ngRoute'])
   });
 }])
 
-.controller('loginCtrl' , [ '$scope','$http' ,'$location', function($scope,$http ,$location) {
+.controller('loginCtrl' , [ '$scope','$http' ,'$location', 'toaster', function($scope,$http ,$location ,toaster) {
     function init() {
     }
     init();
@@ -24,9 +24,12 @@ angular.module('myApp.login', ['ngRoute'])
         $http.post( "http://khanabooks.com/KQ/api/Login" ,postData )
             .then(function(response) {
                 if(response.data.ResponseCode== 0 && response.status==200){
+                    toaster.pop('success', "ورود موفق", response.data.Message.toString());
                     sessionStorage.setItem("user", JSON.stringify( response.data));
                     $location.path("/selectCategory" );
-
+                }
+                else if(response.data.ResponseCode== 1 && response.status==200){
+                    toaster.pop('error', "خطا", response.data.Message.toString());
                 }
             });
     };
