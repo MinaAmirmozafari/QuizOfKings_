@@ -30,6 +30,7 @@ angular.module('myApp.question', ['ngRoute'])
                     $scope.answersList = response.data.Answer;
                 }
                 else if(response.status==200 && response.data.ResponseCode==1){
+                    $location.path('/winner');
                     toaster.pop('error', "خطا", response.data.Message.toString());
                 }
             });
@@ -51,7 +52,7 @@ angular.module('myApp.question', ['ngRoute'])
             .then(function(response) {
                 if(response.status==200 && response.data.ResponseCode==0){
                     $scope.counter++;
-                    if($scope.counter<3){
+                    if($scope.counter<4){
                         getAnswersList();
                     }
                     else{
